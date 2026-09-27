@@ -1,0 +1,131 @@
+{
+ "state_version": 2,
+ "cli_version": "1.14.0",
+ "lineage": "448e4faa-e77f-48f1-aa8d-5ab0b548ad30",
+ "serial": 1,
+ "state": {
+  "resources.jobs.sample_job": {
+   "__id__": "101766368786774",
+   "state": {
+    "deployment": {
+     "kind": "BUNDLE",
+     "metadata_file_path": "/Workspace/Users/kuldeep.tyagi.au@gmail.com/.bundle/dbake/dev/state/metadata.json"
+    },
+    "edit_mode": "EDITABLE",
+    "environments": [
+     {
+      "environment_key": "default",
+      "spec": {
+       "dependencies": [
+        "/Workspace/Users/kuldeep.tyagi.au@gmail.com/.bundle/dbake/dev/artifacts/.internal/dbake-0.0.1-py3-none-any.whl"
+       ],
+       "environment_version": "4"
+      }
+     }
+    ],
+    "format": "MULTI_TASK",
+    "max_concurrent_runs": 4,
+    "name": "[dev kuldeep_tyagi_au] sample_job",
+    "parameters": [
+     {
+      "default": "d_bake",
+      "name": "catalog"
+     },
+     {
+      "default": "dev",
+      "name": "schema"
+     }
+    ],
+    "queue": {
+     "enabled": true
+    },
+    "tags": {
+     "dev": "kuldeep_tyagi_au"
+    },
+    "tasks": [
+     {
+      "notebook_task": {
+       "notebook_path": "/Workspace/Users/kuldeep.tyagi.au@gmail.com/d-datab/dbake/src/sample_notebook"
+      },
+      "task_key": "notebook_task"
+     },
+     {
+      "depends_on": [
+       {
+        "task_key": "notebook_task"
+       }
+      ],
+      "environment_key": "default",
+      "python_wheel_task": {
+       "entry_point": "main",
+       "package_name": "dbake",
+       "parameters": [
+        "--catalog",
+        "d_bake",
+        "--schema",
+        "dev"
+       ]
+      },
+      "task_key": "python_wheel_task"
+     },
+     {
+      "depends_on": [
+       {
+        "task_key": "notebook_task"
+       }
+      ],
+      "pipeline_task": {
+       "pipeline_id": "786f0c5b-aa70-47e4-b5e6-dc8ddcc86ff9"
+      },
+      "task_key": "refresh_pipeline"
+     }
+    ],
+    "trigger": {
+     "pause_status": "PAUSED",
+     "periodic": {
+      "interval": 1,
+      "unit": "DAYS"
+     }
+    }
+   },
+   "depends_on": [
+    {
+     "node": "resources.pipelines.dbake_etl",
+     "label": "${resources.pipelines.dbake_etl.id}"
+    }
+   ]
+  },
+  "resources.pipelines.dbake_etl": {
+   "__id__": "786f0c5b-aa70-47e4-b5e6-dc8ddcc86ff9",
+   "state": {
+    "catalog": "d_bake",
+    "channel": "CURRENT",
+    "deployment": {
+     "kind": "BUNDLE",
+     "metadata_file_path": "/Workspace/Users/kuldeep.tyagi.au@gmail.com/.bundle/dbake/dev/state/metadata.json"
+    },
+    "development": true,
+    "edition": "ADVANCED",
+    "environment": {
+     "dependencies": [
+      "--editable /Workspace/Users/kuldeep.tyagi.au@gmail.com/d-datab/dbake"
+     ]
+    },
+    "libraries": [
+     {
+      "glob": {
+       "include": "/Workspace/Users/kuldeep.tyagi.au@gmail.com/d-datab/dbake/src/dbake_etl/transformations/**"
+      }
+     }
+    ],
+    "name": "[dev kuldeep_tyagi_au] dbake_etl",
+    "root_path": "/Workspace/Users/kuldeep.tyagi.au@gmail.com/d-datab/dbake/src/dbake_etl",
+    "schema": "dev",
+    "serverless": true,
+    "tags": {
+     "dev": "kuldeep_tyagi_au"
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,345 @@
+{
+  "__locations": {
+    "files": [
+      "databricks.yml",
+      "resources/dbake_etl.pipeline.yml",
+      "resources/sample_job.job.yml"
+    ],
+    "locations": {
+      "artifacts": [
+        [
+          0,
+          11,
+          3
+        ]
+      ],
+      "bundle": [
+        [
+          0,
+          4,
+          3
+        ]
+      ],
+      "include": [
+        [
+          0,
+          8,
+          3
+        ]
+      ],
+      "resources": [
+        [
+          1,
+          4,
+          3
+        ],
+        [
+          2,
+          4,
+          3
+        ]
+      ],
+      "resources.jobs": [
+        [
+          2,
+          5,
+          5
+        ]
+      ],
+      "resources.jobs.sample_job": [
+        [
+          2,
+          6,
+          7
+        ]
+      ],
+      "resources.jobs.sample_job.tasks": [
+        [
+          2,
+          25,
+          9
+        ]
+      ],
+      "resources.jobs.sample_job.tasks[0]": [
+        [
+          2,
+          25,
+          11
+        ]
+      ],
+      "resources.jobs.sample_job.tasks[1]": [
+        [
+          2,
+          28,
+          11
+        ]
+      ],
+      "resources.jobs.sample_job.tasks[2]": [
+        [
+          2,
+          40,
+          11
+        ]
+      ],
+      "resources.pipelines": [
+        [
+          1,
+          5,
+          5
+        ]
+      ],
+      "resources.pipelines.dbake_etl": [
+        [
+          1,
+          6,
+          7
+        ]
+      ],
+      "variables": [
+        [
+          0,
+          17,
+          3
+        ]
+      ],
+      "workspace": [
+        [
+          0,
+          31,
+          7
+        ]
+      ]
+    },
+    "version": 1
+  },
+  "artifacts": {
+    "python_artifact": {
+      "build": "uv build --wheel",
+      "files": [
+        {
+          "source": "/Workspace/Users/kuldeep.tyagi.au@gmail.com/d-datab/dbake/dist/*.whl"
+        }
+      ],
+      "path": "/Workspace/Users/kuldeep.tyagi.au@gmail.com/d-datab/dbake",
+      "type": "whl"
+    }
+  },
+  "bundle": {
+    "deployment": {
+      "lock": {
+        "enabled": false
+      }
+    },
+    "environment": "dev",
+    "git": {
+      "actual_branch": "dev",
+      "branch": "dev",
+      "bundle_root_path": "dbake",
+      "commit": "79b63547c8588f979e5119effede650d1cbedc0b",
+      "origin_url": "https://github.com/kuldeeptyagiau/datab.git"
+    },
+    "mode": "development",
+    "name": "dbake",
+    "target": "dev",
+    "uuid": "8396f750-d62a-41f6-94a8-a8af52b4120c"
+  },
+  "include": [
+    "resources/dbake_etl.pipeline.yml",
+    "resources/sample_job.job.yml"
+  ],
+  "presets": {
+    "jobs_max_concurrent_runs": 4,
+    "name_prefix": "[dev kuldeep_tyagi_au] ",
+    "pipelines_development": true,
+    "source_linked_deployment": true,
+    "tags": {
+      "dev": "kuldeep_tyagi_au"
+    },
+    "trigger_pause_status": "PAUSED"
+  },
+  "resources": {
+    "jobs": {
+      "sample_job": {
+        "deployment": {
+          "kind": "BUNDLE",
+          "metadata_file_path": "/Workspace/Users/kuldeep.tyagi.au@gmail.com/.bundle/dbake/dev/state/metadata.json"
+        },
+        "edit_mode": "EDITABLE",
+        "environments": [
+          {
+            "environment_key": "default",
+            "spec": {
+              "dependencies": [
+                "./dist/*.whl"
+              ],
+              "environment_version": "4"
+            }
+          }
+        ],
+        "format": "MULTI_TASK",
+        "max_concurrent_runs": 4,
+        "modified_status": "created",
+        "name": "[dev kuldeep_tyagi_au] sample_job",
+        "parameters": [
+          {
+            "default": "d_bake",
+            "name": "catalog"
+          },
+          {
+            "default": "dev",
+            "name": "schema"
+          }
+        ],
+        "queue": {
+          "enabled": true
+        },
+        "tags": {
+          "dev": "kuldeep_tyagi_au"
+        },
+        "tasks": [
+          {
+            "notebook_task": {
+              "notebook_path": "/Workspace/Users/kuldeep.tyagi.au@gmail.com/d-datab/dbake/src/sample_notebook"
+            },
+            "task_key": "notebook_task"
+          },
+          {
+            "depends_on": [
+              {
+                "task_key": "notebook_task"
+              }
+            ],
+            "environment_key": "default",
+            "python_wheel_task": {
+              "entry_point": "main",
+              "package_name": "dbake",
+              "parameters": [
+                "--catalog",
+                "d_bake",
+                "--schema",
+                "dev"
+              ]
+            },
+            "task_key": "python_wheel_task"
+          },
+          {
+            "depends_on": [
+              {
+                "task_key": "notebook_task"
+              }
+            ],
+            "pipeline_task": {
+              "pipeline_id": "${resources.pipelines.dbake_etl.id}"
+            },
+            "task_key": "refresh_pipeline"
+          }
+        ],
+        "trigger": {
+          "pause_status": "PAUSED",
+          "periodic": {
+            "interval": 1,
+            "unit": "DAYS"
+          }
+        }
+      }
+    },
+    "pipelines": {
+      "dbake_etl": {
+        "catalog": "d_bake",
+        "channel": "CURRENT",
+        "deployment": {
+          "kind": "BUNDLE",
+          "metadata_file_path": "/Workspace/Users/kuldeep.tyagi.au@gmail.com/.bundle/dbake/dev/state/metadata.json"
+        },
+        "development": true,
+        "edition": "ADVANCED",
+        "environment": {
+          "dependencies": [
+            "--editable /Workspace/Users/kuldeep.tyagi.au@gmail.com/d-datab/dbake"
+          ]
+        },
+        "libraries": [
+          {
+            "glob": {
+              "include": "/Workspace/Users/kuldeep.tyagi.au@gmail.com/d-datab/dbake/src/dbake_etl/transformations/**"
+            }
+          }
+        ],
+        "modified_status": "created",
+        "name": "[dev kuldeep_tyagi_au] dbake_etl",
+        "root_path": "/Workspace/Users/kuldeep.tyagi.au@gmail.com/d-datab/dbake/src/dbake_etl",
+        "schema": "dev",
+        "serverless": true,
+        "tags": {
+          "dev": "kuldeep_tyagi_au"
+        }
+      }
+    }
+  },
+  "sync": {
+    "paths": [
+      "."
+    ]
+  },
+  "variables": {
+    "catalog": {
+      "default": "d_bake",
+      "description": "The catalog to use",
+      "value": "d_bake"
+    },
+    "schema": {
+      "default": "dev",
+      "description": "The schema to use",
+      "value": "dev"
+    }
+  },
+  "workspace": {
+    "artifact_path": "/Workspace/Users/kuldeep.tyagi.au@gmail.com/.bundle/dbake/dev/artifacts",
+    "current_user": {
+      "active": true,
+      "domain_friendly_name": "kuldeep-tyagi-au",
+      "emails": [
+        {
+          "primary": true,
+          "type": "work",
+          "value": "kuldeep.tyagi.au@gmail.com"
+        }
+      ],
+      "entitlements": [
+        {
+          "value": "allow-cluster-create"
+        },
+        {
+          "value": "allow-instance-pool-create"
+        }
+      ],
+      "groups": [
+        {
+          "$ref": "Groups/80686211349619",
+          "display": "users",
+          "type": "direct",
+          "value": "80686211349619"
+        },
+        {
+          "$ref": "Groups/83445459786762",
+          "display": "admins",
+          "type": "direct",
+          "value": "83445459786762"
+        }
+      ],
+      "id": "77785146935316",
+      "schemas": [
+        "urn:ietf:params:scim:schemas:core:2.0:User",
+        "urn:ietf:params:scim:schemas:extension:workspace:2.0:User"
+      ],
+      "short_name": "kuldeep_tyagi_au",
+      "userName": "kuldeep.tyagi.au@gmail.com"
+    },
+    "file_path": "/Workspace/Users/kuldeep.tyagi.au@gmail.com/.bundle/dbake/dev/files",
+    "host": "https://dbc-3f28de4b-63e6.cloud.databricks.com",
+    "profile": "workspace_profile",
+    "resource_path": "/Workspace/Users/kuldeep.tyagi.au@gmail.com/.bundle/dbake/dev/resources",
+    "root_path": "/Workspace/Users/kuldeep.tyagi.au@gmail.com/.bundle/dbake/dev",
+    "state_path": "/Workspace/Users/kuldeep.tyagi.au@gmail.com/.bundle/dbake/dev/state"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "config": {
+    "bundle": {
+      "name": "dbake",
+      "target": "dev",
+      "mode": "development",
+      "git": {
+        "branch": "dev",
+        "origin_url": "https://github.com/kuldeeptyagiau/datab.git",
+        "commit": "79b63547c8588f979e5119effede650d1cbedc0b",
+        "bundle_root_path": "dbake"
+      }
+    },
+    "workspace": {
+      "file_path": "/Workspace/Users/kuldeep.tyagi.au@gmail.com/d-datab/dbake"
+    },
+    "resources": {
+      "jobs": {
+        "sample_job": {
+          "id": "101766368786774",
+          "relative_path": "resources/sample_job.job.yml"
+        }
+      },
+      "pipelines": {
+        "dbake_etl": {
+          "id": "786f0c5b-aa70-47e4-b5e6-dc8ddcc86ff9",
+          "relative_path": "resources/dbake_etl.pipeline.yml"
+        }
+      }
+    },
+    "presets": {
+      "source_linked_deployment": true
+    }
+  },
+  "extra": {
+    "git_folder_path": "/Workspace/Users/kuldeep.tyagi.au@gmail.com/d-datab"
+  }
+}

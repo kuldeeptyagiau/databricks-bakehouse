@@ -1,0 +1,26 @@
+{
+  "outputs": [
+    "dbake/.gitignore",
+    "dbake/.vscode/__builtins__.pyi",
+    "dbake/.vscode/extensions.json",
+    "dbake/.vscode/settings.json",
+    "dbake/AGENTS.md",
+    "dbake/CLAUDE.md",
+    "dbake/README.md",
+    "dbake/databricks.yml",
+    "dbake/fixtures/.gitkeep",
+    "dbake/pyproject.toml",
+    "dbake/resources/dbake_etl.pipeline.yml",
+    "dbake/resources/sample_job.job.yml",
+    "dbake/src/dbake/__init__.py",
+    "dbake/src/dbake/main.py",
+    "dbake/src/dbake/taxis.py",
+    "dbake/src/dbake_etl/README.md",
+    "dbake/src/dbake_etl/explorations/sample_exploration.ipynb",
+    "dbake/src/dbake_etl/transformations/sample_trips_dbake.py",
+    "dbake/src/dbake_etl/transformations/sample_zones_dbake.py",
+    "dbake/src/sample_notebook.ipynb",
+    "dbake/tests/conftest.py",
+    "dbake/tests/sample_taxis_test.py"
+  ]
+}

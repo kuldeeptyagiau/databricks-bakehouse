@@ -1,0 +1,1 @@
+{"project_name":"dbake","include_job":"yes","include_pipeline":"yes","include_python":"yes","serverless":"yes","default_catalog":"d_bake","personal_schemas":"no, I will customize the schema configuration later in databricks.yml"}
